@@ -126,6 +126,7 @@ ul.items input:checked + span{color:var(--muted);text-decoration:line-through;te
 .code{font-weight:700;margin-right:.3rem}
 .opt,.time{color:var(--muted);font-size:.85rem}
 .new{font-size:.75rem;font-weight:700;color:var(--red);border:1px solid var(--red);border-radius:2px;padding:0 .3rem;margin-left:.3rem;white-space:nowrap}
+.late{font-size:.75rem;font-weight:700;color:var(--exam);border:1px solid var(--exam);border-radius:2px;padding:0 .3rem;margin-left:.3rem;white-space:nowrap}
 .note{color:var(--muted);font-size:.9rem;margin:.35rem 0 0}
 .deadline{color:var(--exam);font-weight:700;font-size:.9rem;margin:.35rem 0 0}
 
@@ -178,33 +179,36 @@ button.reset:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* m = matemática, r = redação. Itens: [código, texto, extra, tempo]. extra: "opt" = opcional, "new" = Aula 12 / laicidade */
 const plan = [
   {d:"2026-10-07", w:"qua",
-   m:[["1.2","Equações e inequações"],["1.3","Fatoração e proporções"],["1.4","Porcentagem e juros"]],
-   r:[["","Teoria: Aula 11 (conclusões)"],
-      ["","Conclusão sem governo: reescrever as conclusões das 3 redações antigas sem “governo”, “Executivo”, “lei” e “verba”, um tipo diferente em cada"],
-      ["","Montar o esquema da redação 2 (liberdade de expressão)"]]},
-  {d:"2026-10-08", w:"qui",
-   m:[["1.5","Sequências e progressões"],["1.6","Princípios de contagem"],["3.4","Probabilidade"]],
-   r:[["","Teoria: tipos de tópico frasal (Aula 1) e Aula 8"],
-      ["","5 aberturas: cinco introduções de 3 a 4 linhas sobre educação sexual (declaração, definição, alusão histórica, contraste e divisão) e escolher a melhor"]]},
-  {d:"2026-10-09", w:"sex",
-   m:[["4.1","Funções e seus gráficos"],["4.2","Função afim"]],
+   m:[["1.2","Equações e inequações"],["1.3","Fatoração e proporções"]],
    r:[["","Aula 12: leitura completa + as 10 questões, conferindo com o gabarito","new","1h30–2h"]]},
+  {d:"2026-10-08", w:"qui",
+   m:[["1.4","Porcentagem e juros"],["1.5","Sequências e progressões"]],
+   r:[["","Teoria: emenda de vírgula (Aulas 6 e 7)","late"],
+      ["","Leitura em voz alta da redação 1, marcando cada tipo de erro com uma cor de caneta","late"],
+      ["","Laicidade, etapa 1: ler a coletânea, definir a tese, escolher a citação e montar o roteiro","new","~45 min"]]},
+  {d:"2026-10-09", w:"sex",
+   m:[["1.6","Princípios de contagem"],["3.4","Probabilidade"]],
+   r:[["","Reescrita completa da redação 1","late"],
+      ["","Laicidade, etapa 2: escrever o texto completo","new","~1h"]]},
   {d:"2026-10-10", w:"sáb", heavy:true,
    m:[["P1","Prova antiga de matemática da FGV, cronometrada","","3h30"],["C1","Correção da prova antiga"]],
    mnote:"Provas e gabaritos em vestibular.fgv.br",
-   r:[["","Tópico frasal primeiro: escrever só a 1ª frase de cada parágrafo e conferir se já contam o argumento"],
-      ["","Redação 2 completa: liberdade de expressão (Aula 1)"]]},
+   r:[["","Laicidade, etapa 3: revisar com o checklist, formatar e enviar","new","~40 min"],
+      ["","Teoria: Aula 11 (conclusões)"],
+      ["","Conclusão sem governo: reescrever as conclusões das 3 redações antigas sem “governo”, “Executivo”, “lei” e “verba”, um tipo diferente em cada"],
+      ["","Montar o esquema da redação 2 (liberdade de expressão)"]],
+   deadline:"Hoje é o prazo de entrega da redação de laicidade. Envie antes da prova antiga, se puder."},
   {d:"2026-10-11", w:"dom", heavy:true,
-   m:[["4.3","Função quadrática"],["4.4","Função exponencial"],["4.5","Função logarítmica"],["3.1","Representação e análise de dados"],["3.2","Representação gráfica"],["3.3","Medidas de centralidade e variabilidade"]],
-   r:[["","Correção e reescrita da redação 2"],
-      ["","Meus 5 erros: comparar as redações 1 e 2 e listar os erros repetidos (vira o checklist pessoal)"],
-      ["","Laicidade, etapa 1: ler a coletânea, definir a tese, escolher a citação e montar o roteiro","new","~45 min"],
-      ["","Laicidade, etapa 2: escrever o texto completo","new","~1h"]]},
+   m:[["4.1","Funções e seus gráficos"],["4.2","Função afim"],["4.3","Função quadrática"],["4.4","Função exponencial"],["4.5","Função logarítmica"],["3.1","Representação e análise de dados"],["3.2","Representação gráfica"],["3.3","Medidas de centralidade e variabilidade"]],
+   r:[["","Teoria: tipos de tópico frasal (Aula 1) e Aula 8"],
+      ["","5 aberturas: cinco introduções de 3 a 4 linhas sobre educação sexual (declaração, definição, alusão histórica, contraste e divisão) e escolher a melhor"],
+      ["","Tópico frasal primeiro: escrever só a 1ª frase de cada parágrafo e conferir se já contam o argumento"],
+      ["","Redação 2 completa: liberdade de expressão (Aula 1)"]]},
   {d:"2026-10-12", w:"seg", heavy:true, tag:"feriado",
    m:[["2.4","Triângulos e trigonometria"],["4.6","Relações trigonométricas"],["4.7","Funções trigonométricas"],["2.1","Polígonos"],["2.2","Circunferência"],["2.3","Proporcionalidade e semelhança"],["2.5","Áreas"],["X1","Extra: O quadrilátero inscritível","opt"]],
-   r:[["","Laicidade, etapa 3: revisar com o checklist, formatar e enviar","new","~40 min"],
-      ["","Redação 3: educação sexual (prova real da FGV 2020, Aula 9), em condição de prova","","1h15, sem consulta"]],
-   rnote:"Meta: enviar a redação de laicidade hoje, para a correção ter tempo de voltar antes da prova."},
+   r:[["","Correção e reescrita da redação 2"],
+      ["","Meus 5 erros: comparar as redações 1 e 2 e listar os erros repetidos (vira o checklist pessoal)"],
+      ["","Redação 3: educação sexual (prova real da FGV 2020, Aula 9), em condição de prova","","1h15, sem consulta"]]},
   {d:"2026-10-13", w:"ter", heavy:true, tag:"feriado",
    m:[["P2","Segunda prova antiga, cronometrada","","3h30"],["C2","Correção da segunda prova"]],
    r:[["","Teoria: tabela da Ferramenta 1 e critério E da Aula 2"],
@@ -213,8 +217,7 @@ const plan = [
    m:[["2.6","Prisma e pirâmide"],["2.7","Cilindro, cone e esfera"],["2.8","Poliedros"],["X2","Extra: Geometria espacial de posição","opt"]],
    r:[["","Teoria: paralelismo e verbos ônibus (Aula 4)"],
       ["","Correção e reescrita da redação 3"],
-      ["","Tesoura: cortar três orações com “que” e trocar três verbos genéricos por verbos precisos"]],
-   deadline:"Prazo final da redação de laicidade (Aula 12), caso não tenha enviado na segunda."},
+      ["","Tesoura: cortar três orações com “que” e trocar três verbos genéricos por verbos precisos"]]},
   {d:"2026-10-15", w:"qui",
    m:[["5.1","Coordenadas e distâncias"],["5.2","Equação da reta"],["5.3","Retas paralelas e perpendiculares, ângulos"]],
    r:[["","Correção e reescrita da redação 4"],
@@ -230,7 +233,7 @@ const plan = [
    note:"Dia leve. Separe documento com foto, cartão de confirmação impresso, lápis, borracha e caneta azul ou preta. Durma cedo."}
 ];
 
-const KEY = "cronograma-fgv-mat-red-v2";
+const KEY = "cronograma-fgv-mat-red-v3";
 let state = {};
 try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { state = {}; }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
@@ -255,6 +258,7 @@ function buildSubject(cls, title, tag, items, dayKey, notes){
     let extra = "";
     if (flag === "opt") extra += ' <span class="opt">(opcional)</span>';
     if (flag === "new") extra += ' <span class="new">Aula 12</span>';
+    if (flag === "late") extra += ' <span class="late">atrasada</span>';
     if (time) extra += ` <span class="time">· ${esc(time)}</span>`;
     const li = document.createElement("li");
     li.innerHTML = `<label><input type="checkbox" data-id="${id}" data-s="${cls}"${state[id] ? " checked" : ""}><span>${/^\d/.test(code) ? `<span class="code">${code}</span>` : ""}${esc(text)}${extra}</span></label>`;
