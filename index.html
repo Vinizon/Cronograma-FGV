@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cronograma até a prova · FGV</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f9fb;
+  --grid:#e2e8ef;
+  --ink:#1b2a41;
+  --muted:#5b6b80;
+  --line:#cdd6e1;
+  --mark:#ffe66d;
+  --done:#2f7d5b;
+  --exam:#c23b4e;
+  --mat:#2d5f9a;
+  --red:#8a4fa3;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121a26;--grid:#1b2533;--ink:#e6edf6;--muted:#9aa9bc;--line:#2c3a4d;--mark:#5e5210;--done:#5cc497;--exam:#ff7b8c;--mat:#7fb0ea;--red:#c99be0;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121a26;--grid:#1b2533;--ink:#e6edf6;--muted:#9aa9bc;--line:#2c3a4d;--mark:#5e5210;--done:#5cc497;--exam:#ff7b8c;--mat:#7fb0ea;--red:#c99be0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:1rem;
+  line-height:1.5;
+}
+main{max-width:50rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+h1{
+  font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;
+  font-weight:700;
+  font-size:clamp(2rem,6vw,3rem);
+  line-height:1.05;
+  margin:0 0 .5rem;
+  letter-spacing:-.01em;
+}
+.sub{color:var(--muted);margin:0 0 1.5rem;max-width:38rem}
+
+.progress{margin-bottom:1.25rem}
+.progress-text{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.25rem 1rem;font-weight:700;margin-bottom:.4rem}
+.progress-text .left{color:var(--muted);font-weight:400}
+.bar{height:10px;border:1.5px solid var(--ink);border-radius:2px;background:var(--paper);overflow:hidden}
+.bar-fill{height:100%;width:0;background:var(--done);transition:width .3s ease}
+.split{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:.5rem;font-size:.9rem;color:var(--muted)}
+.split b{font-weight:700}
+.split .m b{color:var(--mat)}
+.split .r b{color:var(--red)}
+@media (prefers-reduced-motion:reduce){.bar-fill{transition:none}}
+
+details.howto{
+  border:1.5px solid var(--ink);border-radius:2px;background:var(--paper);
+  padding:.6rem .9rem;margin-bottom:2rem;
+}
+details.howto summary{cursor:pointer;font-weight:700}
+details.howto summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+details.howto ul{margin:.6rem 0 .2rem;padding-left:1.2rem}
+details.howto li{margin:.15rem 0}
+
+ol.days{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
+li.day{
+  display:grid;
+  grid-template-columns:5.5rem 1fr;
+  gap:1rem;
+  padding:1.1rem .75rem;
+  border-bottom:1px solid var(--line);
+  background:var(--paper);
+}
+li.day.today{
+  background:var(--mark);
+  border-left:4px solid var(--ink);
+  padding-left:calc(.75rem - 4px);
+}
+li.day.past:not(.today) .date{color:var(--muted)}
+li.day.heavy:not(.today){border-left:4px solid var(--line);padding-left:calc(.75rem - 4px)}
+.heavy-tag{display:inline-block;margin-top:.35rem;font-size:.75rem;color:var(--muted);border:1px solid var(--line);padding:0 .35rem;border-radius:2px;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-weight:400}
+.date{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:1.15rem;line-height:1.1}
+.date small{display:block;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-weight:400;font-size:.85rem;color:var(--muted);margin-top:.15rem}
+li.day.today .date small{color:var(--ink)}
+.today-tag{display:inline-block;margin-top:.35rem;font-size:.75rem;font-weight:700;border:1.5px solid var(--ink);padding:0 .35rem;border-radius:2px}
+
+.subject + .subject{margin-top:.85rem}
+.subject h3{
+  margin:0 0 .3rem;font-size:.95rem;font-weight:700;
+  display:flex;align-items:center;gap:.45rem;
+}
+.subject h3::before{content:"";width:.7rem;height:.7rem;border-radius:2px;flex:0 0 auto}
+.subject.mat h3{color:var(--mat)}
+.subject.mat h3::before{background:var(--mat)}
+.subject.red h3{color:var(--red)}
+.subject.red h3::before{background:var(--red)}
+.subject h3 .tag{font-weight:400;color:var(--muted);font-size:.85rem}
+
+ul.items{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
+ul.items label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer;padding:.1rem 0}
+ul.items input{
+  appearance:none;-webkit-appearance:none;
+  flex:0 0 auto;width:1.15rem;height:1.15rem;margin:.18rem 0 0;
+  border:1.5px solid var(--ink);border-radius:2px;background:var(--paper);
+  display:grid;place-items:center;cursor:pointer;
+}
+ul.items input:checked{background:var(--done);border-color:var(--done)}
+ul.items input:checked::after{content:"";width:.32rem;height:.6rem;border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+ul.items input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+ul.items input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.code{font-weight:700;margin-right:.3rem}
+.opt,.time{color:var(--muted);font-size:.85rem}
+.new{font-size:.75rem;font-weight:700;color:var(--red);border:1px solid var(--red);border-radius:2px;padding:0 .3rem;margin-left:.3rem;white-space:nowrap}
+.note{color:var(--muted);font-size:.9rem;margin:.35rem 0 0}
+.deadline{color:var(--exam);font-weight:700;font-size:.9rem;margin:.35rem 0 0}
+
+li.exam{border-bottom:1.5px solid var(--ink)}
+li.exam .date{color:var(--exam)}
+.exam-title{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:1.15rem;margin:0 0 .3rem}
+.exam p{margin:.15rem 0}
+
+.foot{display:flex;justify-content:flex-end;margin-top:1.5rem}
+button.reset{
+  font:inherit;font-size:.9rem;color:var(--muted);background:none;border:1px solid var(--line);
+  padding:.35rem .7rem;border-radius:2px;cursor:pointer;
+}
+button.reset:hover{color:var(--ink);border-color:var(--ink)}
+button.reset:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+@media (max-width:520px){
+  main{padding-top:1.75rem}
+  li.day{grid-template-columns:1fr;gap:.5rem}
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Até a prova: matemática e redação</h1>
+  <p class="sub">Leituras do Material de Matemática do FGV Talentos e o cronograma de redação, juntos, dia a dia até 18 de outubro. As tarefas mais longas ficam no fim de semana e no feriado de 12 e 13. Marque cada tarefa conforme for fazendo.</p>
+
+  <div class="progress" aria-live="polite">
+    <div class="progress-text"><span id="count">0 de 0 tarefas</span><span class="left" id="left"></span></div>
+    <div class="bar" role="progressbar" aria-label="Progresso total" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar-fill" id="fill"></div></div>
+    <div class="split"><span class="m">Matemática: <b id="cm">0/0</b></span><span class="r">Redação: <b id="cr">0/0</b></span></div>
+  </div>
+
+  <details class="howto">
+    <summary>Divisão do tempo nos dias de redação</summary>
+    <ul>
+      <li>15 min para o esquema: pergunta, três hipóteses, tese e título provisório</li>
+      <li>45 min para o rascunho</li>
+      <li>10 min para o checklist</li>
+      <li>20 min para passar a limpo à mão e contar as linhas</li>
+    </ul>
+  </details>
+
+  <ol class="days" id="days"></ol>
+
+  <div class="foot"><button class="reset" id="reset" type="button">Desmarcar tudo</button></div>
+</main>
+
+<script>
+/* m = matemática, r = redação. Itens: [código, texto, extra, tempo]. extra: "opt" = opcional, "new" = Aula 12 / laicidade */
+const plan = [
+  {d:"2026-10-07", w:"qua",
+   m:[["1.2","Equações e inequações"],["1.3","Fatoração e proporções"],["1.4","Porcentagem e juros"]],
+   r:[["","Teoria: Aula 11 (conclusões)"],
+      ["","Conclusão sem governo: reescrever as conclusões das 3 redações antigas sem “governo”, “Executivo”, “lei” e “verba”, um tipo diferente em cada"],
+      ["","Montar o esquema da redação 2 (liberdade de expressão)"]]},
+  {d:"2026-10-08", w:"qui",
+   m:[["1.5","Sequências e progressões"],["1.6","Princípios de contagem"],["3.4","Probabilidade"]],
+   r:[["","Teoria: tipos de tópico frasal (Aula 1) e Aula 8"],
+      ["","5 aberturas: cinco introduções de 3 a 4 linhas sobre educação sexual (declaração, definição, alusão histórica, contraste e divisão) e escolher a melhor"]]},
+  {d:"2026-10-09", w:"sex",
+   m:[["4.1","Funções e seus gráficos"],["4.2","Função afim"]],
+   r:[["","Aula 12: leitura completa + as 10 questões, conferindo com o gabarito","new","1h30–2h"]]},
+  {d:"2026-10-10", w:"sáb", heavy:true,
+   m:[["P1","Prova antiga de matemática da FGV, cronometrada","","3h30"],["C1","Correção da prova antiga"]],
+   mnote:"Provas e gabaritos em vestibular.fgv.br",
+   r:[["","Tópico frasal primeiro: escrever só a 1ª frase de cada parágrafo e conferir se já contam o argumento"],
+      ["","Redação 2 completa: liberdade de expressão (Aula 1)"]]},
+  {d:"2026-10-11", w:"dom", heavy:true,
+   m:[["4.3","Função quadrática"],["4.4","Função exponencial"],["4.5","Função logarítmica"],["3.1","Representação e análise de dados"],["3.2","Representação gráfica"],["3.3","Medidas de centralidade e variabilidade"]],
+   r:[["","Correção e reescrita da redação 2"],
+      ["","Meus 5 erros: comparar as redações 1 e 2 e listar os erros repetidos (vira o checklist pessoal)"],
+      ["","Laicidade, etapa 1: ler a coletânea, definir a tese, escolher a citação e montar o roteiro","new","~45 min"],
+      ["","Laicidade, etapa 2: escrever o texto completo","new","~1h"]]},
+  {d:"2026-10-12", w:"seg", heavy:true, tag:"feriado",
+   m:[["2.4","Triângulos e trigonometria"],["4.6","Relações trigonométricas"],["4.7","Funções trigonométricas"],["2.1","Polígonos"],["2.2","Circunferência"],["2.3","Proporcionalidade e semelhança"],["2.5","Áreas"],["X1","Extra: O quadrilátero inscritível","opt"]],
+   r:[["","Laicidade, etapa 3: revisar com o checklist, formatar e enviar","new","~40 min"],
+      ["","Redação 3: educação sexual (prova real da FGV 2020, Aula 9), em condição de prova","","1h15, sem consulta"]],
+   rnote:"Meta: enviar a redação de laicidade hoje, para a correção ter tempo de voltar antes da prova."},
+  {d:"2026-10-13", w:"ter", heavy:true, tag:"feriado",
+   m:[["P2","Segunda prova antiga, cronometrada","","3h30"],["C2","Correção da segunda prova"]],
+   r:[["","Teoria: tabela da Ferramenta 1 e critério E da Aula 2"],
+      ["","Redação 4: aquecimento global (Aula 2), com a proposta concreta como tese"]]},
+  {d:"2026-10-14", w:"qua",
+   m:[["2.6","Prisma e pirâmide"],["2.7","Cilindro, cone e esfera"],["2.8","Poliedros"],["X2","Extra: Geometria espacial de posição","opt"]],
+   r:[["","Teoria: paralelismo e verbos ônibus (Aula 4)"],
+      ["","Correção e reescrita da redação 3"],
+      ["","Tesoura: cortar três orações com “que” e trocar três verbos genéricos por verbos precisos"]],
+   deadline:"Prazo final da redação de laicidade (Aula 12), caso não tenha enviado na segunda."},
+  {d:"2026-10-15", w:"qui",
+   m:[["5.1","Coordenadas e distâncias"],["5.2","Equação da reta"],["5.3","Retas paralelas e perpendiculares, ângulos"]],
+   r:[["","Correção e reescrita da redação 4"],
+      ["","Redação relâmpago: linguagem neutra (Aula 10), só esquema, introdução e conclusão","","25 min"]]},
+  {d:"2026-10-16", w:"sex",
+   m:[["5.4","Circunferência e elipse"],["5.5","Interseções"],["5.6","Sistemas lineares"]],
+   r:[["","Simulado final: tema inédito no estilo FGV, em condições reais, conferindo se ficou entre 20 e 30 linhas","","1h"]]},
+  {d:"2026-10-17", w:"sáb",
+   m:[["R","Revisar os erros das duas provas antigas"]],
+   r:[["","Listar os erros do simulado, sem reescrever"],
+      ["","Reler o checklist pessoal e a melhor reescrita"],
+      ["","Reler o feedback da correção da redação de laicidade, se já tiver voltado"]],
+   note:"Dia leve. Separe documento com foto, cartão de confirmação impresso, lápis, borracha e caneta azul ou preta. Durma cedo."}
+];
+
+const KEY = "cronograma-fgv-mat-red-v2";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { state = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+function isoToday(){
+  const t = new Date();
+  return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
+}
+const today = isoToday();
+
+function esc(s){ return s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function buildSubject(cls, title, tag, items, dayKey, notes){
+  const wrap = document.createElement("div");
+  wrap.className = "subject " + cls;
+  wrap.innerHTML = `<h3>${title}${tag ? ` <span class="tag">${tag}</span>` : ""}</h3>`;
+  const ul = document.createElement("ul");
+  ul.className = "items";
+  items.forEach((it, i) => {
+    const [code, text, flag, time] = it;
+    const id = `${dayKey}_${cls}_${i}`;
+    let extra = "";
+    if (flag === "opt") extra += ' <span class="opt">(opcional)</span>';
+    if (flag === "new") extra += ' <span class="new">Aula 12</span>';
+    if (time) extra += ` <span class="time">· ${esc(time)}</span>`;
+    const li = document.createElement("li");
+    li.innerHTML = `<label><input type="checkbox" data-id="${id}" data-s="${cls}"${state[id] ? " checked" : ""}><span>${/^\d/.test(code) ? `<span class="code">${code}</span>` : ""}${esc(text)}${extra}</span></label>`;
+    ul.appendChild(li);
+  });
+  wrap.appendChild(ul);
+  (notes || []).forEach(([kind, txt]) => {
+    if (!txt) return;
+    const p = document.createElement("p");
+    p.className = kind;
+    p.textContent = txt;
+    wrap.appendChild(p);
+  });
+  return wrap;
+}
+
+const list = document.getElementById("days");
+plan.forEach(day => {
+  const li = document.createElement("li");
+  li.className = "day" + (day.heavy ? " heavy" : "") + (day.d === today ? " today" : "") + (day.d < today ? " past" : "");
+  const [, m, dd] = day.d.split("-");
+  const dateDiv = document.createElement("div");
+  dateDiv.className = "date";
+  dateDiv.innerHTML = `${dd}/${m}<small>${day.w}${day.tag ? " · " + day.tag : ""}</small>` + (day.d === today ? `<span class="today-tag">hoje</span>` : "") + (day.heavy ? `<br><span class="heavy-tag">dia cheio</span>` : "");
+  const right = document.createElement("div");
+  right.appendChild(buildSubject("mat", "Matemática", "", day.m, day.d, [["note", day.mnote]]));
+  right.appendChild(buildSubject("red", "Redação", "", day.r, day.d, [["note", day.rnote], ["deadline", day.deadline]]));
+  if (day.note){ const p = document.createElement("p"); p.className = "note"; p.style.marginTop = ".75rem"; p.textContent = day.note; right.appendChild(p); }
+  li.appendChild(dateDiv); li.appendChild(right);
+  list.appendChild(li);
+});
+
+const exam = document.createElement("li");
+exam.className = "day exam" + ("2026-10-18" === today ? " today" : "");
+exam.innerHTML = `<div class="date">18/10<small>dom</small></div>
+<div><p class="exam-title">Dia da prova</p>
+<p>Manhã: portões 6h45 às 7h30, prova 8h às 11h30 (redação e matemática discursiva).</p>
+<p>Tarde: portões 13h15 às 14h00, prova 14h30 às 18h (objetiva).</p>
+<p class="note">Newton Paiva Wyden, Av. Presidente Carlos Luz, 220, sala M101B, 1º andar, Bloco Uni.</p></div>`;
+list.appendChild(exam);
+
+const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+function update(){
+  const total = boxes.length;
+  const done = boxes.filter(b => b.checked).length;
+  const mAll = boxes.filter(b => b.dataset.s === "mat"), rAll = boxes.filter(b => b.dataset.s === "red");
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById("count").textContent = `${done} de ${total} tarefas`;
+  document.getElementById("cm").textContent = `${mAll.filter(b=>b.checked).length}/${mAll.length}`;
+  document.getElementById("cr").textContent = `${rAll.filter(b=>b.checked).length}/${rAll.length}`;
+  const days = Math.round((new Date(2026,9,18) - new Date(new Date().toDateString()))/86400000);
+  document.getElementById("left").textContent = days > 1 ? `faltam ${days} dias` : days === 1 ? "a prova é amanhã" : days === 0 ? "a prova é hoje" : "";
+  document.getElementById("fill").style.width = pct + "%";
+  document.querySelector(".bar").setAttribute("aria-valuenow", pct);
+}
+boxes.forEach(b => b.addEventListener("change", () => { state[b.dataset.id] = b.checked; save(); update(); }));
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Desmarcar todas as tarefas?")) return;
+  state = {}; save(); boxes.forEach(b => b.checked = false); update();
+});
+update();
+</script>
+</body>
+</html>
